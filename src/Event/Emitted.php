@@ -11,7 +11,6 @@ namespace DecodeLabs\Impulse\Event;
 
 /**
  * @template T of object
- *
  * @implements Proxy<T>
  */
 class Emitted implements
@@ -25,9 +24,9 @@ class Emitted implements
     /**
      * @var T
      */
-    public object $target;
-    protected ?string $context = null;
-    protected ?string $action = null;
+    public readonly object $target;
+    public readonly ?string $context;
+    public readonly ?string $action;
 
     /**
      * @param T $target

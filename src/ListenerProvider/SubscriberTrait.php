@@ -9,14 +9,12 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Impulse\ListenerProvider;
 
-use DecodeLabs\Impulse\Event\Proxy;
-use DecodeLabs\Impulse\Event\WithAction;
-use DecodeLabs\Impulse\Event\WithContext;
 use DecodeLabs\Impulse\Subscription;
-use ReflectionClass;
 
 trait SubscriberTrait
 {
+    use EventReflectionTrait;
+
     /**
      * @var array<Subscription<object>>
      */
@@ -42,10 +40,9 @@ trait SubscriberTrait
             $this->sorted = true;
         }
 
-        $type = $event instanceof Proxy ? $event->getType() : get_class($event);
-        $action = $event instanceof WithAction ? $event->getAction() : null;
-        $context = $event instanceof WithContext ? $event->getContext() : null;
-        $types = $this->getEventTypes($type);
+        $action = $this->getEventAction($event);
+        $context = $this->getEventContext($event);
+        $types = $this->getEventTypes($event);
 
         foreach ($this->subscriptions as $subscription) {
             $subType = $subscription->getType();
@@ -72,31 +69,5 @@ trait SubscriberTrait
             /** @var Subscription<T> $subscription */
             yield $subscription;
         }
-    }
-
-    /**
-     * Get event types
-     *
-     * @template T of object
-     * @param class-string<T> $eventType
-     * @return array<class-string>
-     */
-    protected function getEventTypes(
-        string $eventType
-    ): array {
-        $ref = new ReflectionClass($eventType);
-        $curr = $ref;
-
-        do {
-            $types[] = $curr->getName();
-            $parent = $curr->getParentClass();
-            $curr = $parent;
-        } while ($curr);
-
-        foreach ($ref->getInterfaceNames() as $interface) {
-            $types[] = $interface;
-        }
-
-        return $types;
     }
 }

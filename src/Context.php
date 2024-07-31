@@ -41,7 +41,7 @@ class Context extends Dispatcher implements SubscribableListenerProvider
 
         if ($listenerProvider === null) {
             $listenerProvider = new CompoundListenerProvider(
-                //new HookListenerProvider(),
+                new HookListenerProvider(),
             );
         }
 

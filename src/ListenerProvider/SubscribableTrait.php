@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Impulse\ListenerProvider;
 
+use DecodeLabs\Impulse\Event\Emitted;
 use DecodeLabs\Impulse\Priority;
 use DecodeLabs\Impulse\Subscription;
-use DecodeLabs\Impulse\Subscription\Generic as GenericSubscription;
 
 trait SubscribableTrait
 {
@@ -20,7 +20,7 @@ trait SubscribableTrait
      *
      * @template T of object
      * @param class-string<T>|null $type
-     * @param ?callable(T): void $listener
+     * @param ?callable(T|Emitted<T>): void $listener
      * @return Subscription<T>
      */
     public function on(
@@ -48,7 +48,7 @@ trait SubscribableTrait
      *
      * @template T of object
      * @param class-string<T>|null $type
-     * @param ?callable(T): void $listener
+     * @param ?callable(T|Emitted<T>): void $listener
      * @return Subscription<T>
      */
     public function once(
@@ -77,7 +77,7 @@ trait SubscribableTrait
      *
      * @template T of object
      * @param class-string<T>|null $type
-     * @param ?callable(T): void $listener
+     * @param ?callable(T|Emitted<T>): void $listener
      * @return Subscription<T>
      */
     public function createSubscription(
@@ -88,7 +88,7 @@ trait SubscribableTrait
         Priority $priority = Priority::Medium,
         bool $singleUse = false
     ): Subscription {
-        return new GenericSubscription(
+        return new Subscription(
             type: $type,
             context: $context,
             action: $action,
