@@ -46,7 +46,7 @@ trait SubscriberTrait
 
         foreach ($this->subscriptions as $subscription) {
             $subType = $subscription->getType();
-            $subAction = $subscription->getAction();
+            $subActions = $subscription->getActions();
             $subContext = $subscription->getContext();
 
             if (
@@ -59,8 +59,8 @@ trait SubscriberTrait
                     $subContext !== $context
                 ) ||
                 (
-                    $subAction !== null &&
-                    $subAction !== $action
+                    $subActions !== null &&
+                    !in_array($action, $subActions)
                 )
             ) {
                 continue;
