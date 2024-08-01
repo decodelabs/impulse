@@ -1,0 +1,45 @@
+{
+    "name": "decodelabs/impulse",
+    "description": "PSR-14 compatible event hook system",
+    "type": "library",
+    "keywords": [ ],
+    "license": "MIT",
+    "authors": [ {
+            "name": "Tom Wright",
+            "email": "tom@inflatablecookie.com"
+        } ],
+    "require": {
+        "php": "^8.1",
+        "psr/event-dispatcher": "^1",
+
+        "decodelabs/archetype": "^0.3.6",
+        "decodelabs/exceptional": "^0.4.5",
+        "decodelabs/veneer": "^0.11.2",
+        "decodelabs/slingshot": "^0.1.9"
+    },
+    "require-dev": {
+        "decodelabs/phpstan-decodelabs": "^0.6.8",
+        "decodelabs/atlas": "^0.11.4",
+        "decodelabs/genesis": "^0.8.6"
+    },
+    "provide": {
+        "psr/event-dispatcher-implementation": "1.0"
+    },
+    "suggest": {
+        "decodelabs/atlas": "Enable hook map caching",
+        "decodelabs/genesis": "Enable hook map caching"
+    },
+    "autoload": {
+        "psr-4": {
+            "DecodeLabs\\Impulse\\": "src/"
+        },
+        "files": [
+            "src/Context.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.1.x-dev"
+        }
+    }
+}
