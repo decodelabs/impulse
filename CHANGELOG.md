@@ -1,3 +1,5 @@
+* Added enabled flag to Dispatcher
+
 ## v0.2.2 (2024-08-01)
 * Fixed hook listener discovery
 

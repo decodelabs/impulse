@@ -25,6 +25,8 @@ class Dispatcher implements PsrEventDispatcher
      */
     protected PsrListenerProvider $provider;
 
+    protected bool $enabled = true;
+
     /**
      * Initialise listener provider
      *
@@ -54,6 +56,10 @@ class Dispatcher implements PsrEventDispatcher
     public function dispatch(
         object $event
     ): object {
+        if (!$this->enabled) {
+            return $event;
+        }
+
         $listeners = $this->provider->getListenersForEvent($event);
 
         foreach ($listeners as $listener) {
@@ -90,12 +96,34 @@ class Dispatcher implements PsrEventDispatcher
         ?string $context = null,
         ?string $action = null
     ): EmittedEvent {
-        return $this->dispatch(
-            new EmittedEvent(
-                target: $target,
-                context: $context,
-                action: $action
-            )
+        $event = new EmittedEvent(
+            target: $target,
+            context: $context,
+            action: $action
         );
+
+        if (!$this->enabled) {
+            return $event;
+        }
+
+        return $this->dispatch($event);
+    }
+
+
+    /**
+     * Set enabled state
+     */
+    public function setEnabled(
+        bool $enabled
+    ): void {
+        $this->enabled = $enabled;
+    }
+
+    /**
+     * Is enabled
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
     }
 }

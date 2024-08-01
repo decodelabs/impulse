@@ -36,6 +36,10 @@ class Impulse implements Proxy
     public static function emit(object $target, ?string $context = NULL, ?string $action = NULL): Ref2 {
         return static::$instance->emit(...func_get_args());
     }
+    public static function setEnabled(bool $enabled): void {}
+    public static function isEnabled(): bool {
+        return static::$instance->isEnabled();
+    }
     public static function on(?string $type = NULL, ?callable $listener = NULL, ?string $context = NULL, array|string|null $action = NULL, Ref3 $priority = DecodeLabs\Impulse\Priority::Medium): Ref0 {
         return static::$instance->on(...func_get_args());
     }
