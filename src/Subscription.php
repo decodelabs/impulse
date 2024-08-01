@@ -19,7 +19,10 @@ use ReflectionNamedType;
 /**
  * @template T of object
  */
-#[Attribute(Attribute::TARGET_METHOD)]
+#[Attribute(
+    Attribute::TARGET_METHOD |
+    Attribute::IS_REPEATABLE
+)]
 class Subscription
 {
     /**
@@ -28,7 +31,12 @@ class Subscription
     protected ?string $type = null;
 
     protected ?string $context = null;
-    protected ?string $action = null;
+
+    /**
+     * @var array<string>|null
+     */
+    protected ?array $actions = null;
+
     protected Priority $priority = Priority::Medium;
     protected bool $singleUse = false;
     protected bool $emitted = false;
@@ -41,20 +49,33 @@ class Subscription
     /**
      * @param class-string<T>|null $type
      * @param callable(T|Emitted<T>): void $listener
+     * @param string|array<string>|null $action
      */
     public function __construct(
         ?string $type,
         ?callable $listener = null,
         ?string $context = null,
-        ?string $action = null,
+        string|array|null $action = null,
         Priority $priority = null,
         bool $singleUse = false,
         bool $emitted = false
     ) {
+        if ($action !== null) {
+            if (is_string($action)) {
+                $action = [$action];
+            }
+
+            sort($action);
+
+            if (empty($action)) {
+                $action = null;
+            }
+        }
+
         $this->type = $type;
         $this->listener = Closure::fromCallable($listener ?? fn () => null);
         $this->context = $context;
-        $this->action = $action;
+        $this->actions = $action;
         $this->priority = $priority ?? Priority::Medium;
         $this->singleUse = $singleUse;
         $this->emitted = $emitted;
@@ -101,7 +122,7 @@ class Subscription
         return
             ($this->type ?? '*') . ':' .
             ($this->context ?? '*') . '#' .
-            ($this->action ?? '*');
+            (implode(',', $this->actions ?? ['*']));
     }
 
 
@@ -125,10 +146,27 @@ class Subscription
 
     /**
      * Get action
+     *
+     * @return array<string>|null
      */
-    public function getAction(): ?string
+    public function getActions(): ?array
     {
-        return $this->action;
+        return $this->actions;
+    }
+
+    /**
+     * Accepts action
+     */
+    public function acceptsAction(
+        ?string $action
+    ): bool {
+        if ($action === null) {
+            return $this->actions === null;
+        }
+
+        return
+            $this->actions === null ||
+            in_array($action, $this->actions);
     }
 
     /**
@@ -177,7 +215,7 @@ class Subscription
             $this->emitted &&
             !$event instanceof Emitted
         ) {
-            $event = new Emitted($event, $this->context, $this->action);
+            $event = new Emitted($event, $this->context, null);
         } elseif (
             !$this->emitted &&
             $event instanceof Emitted

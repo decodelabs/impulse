@@ -21,13 +21,14 @@ interface Subscribable extends ListenerProvider
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T): void $listener
+     * @param string|array<string>|null $action
      * @return Subscription<T>
      */
     public function on(
         ?string $type = null,
         ?callable $listener = null,
         ?string $context = null,
-        ?string $action = null,
+        string|array|null $action = null,
         Priority $priority = Priority::Medium
     ): Subscription;
 
@@ -37,13 +38,14 @@ interface Subscribable extends ListenerProvider
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T): void $listener
+     * @param string|array<string>|null $action
      * @return Subscription<T>
      */
     public function once(
         ?string $type = null,
         ?callable $listener = null,
         ?string $context = null,
-        ?string $action = null,
+        string|array|null $action = null,
         Priority $priority = Priority::Medium
     ): Subscription;
 
@@ -73,13 +75,14 @@ interface Subscribable extends ListenerProvider
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T): void $listener
+     * @param string|array<string>|null $action
      * @return Subscription<T>
      */
     public function createSubscription(
         ?string $type = null,
         ?callable $listener = null,
         ?string $context = null,
-        ?string $action = null,
+        string|array|null $action = null,
         Priority $priority = Priority::Medium,
         bool $singleUse = false
     ): Subscription;

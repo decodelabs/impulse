@@ -1,3 +1,6 @@
+* Allow Subscription attribute repetition
+* Support multiple actions per subscription
+
 ## v0.1.1 (2024-08-01)
 * Added error fallback for hook index cache
 

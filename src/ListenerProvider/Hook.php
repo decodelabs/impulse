@@ -25,7 +25,7 @@ class Hook implements ListenerProvider
     use EventReflectionTrait;
 
     /**
-     * @var array<string,array<class-string<HookInterface>,array<string>>>
+     * @var array<string,array<class-string<HookInterface>,array<string,array<string>>>>
      */
     protected array $index = [];
 
@@ -46,9 +46,10 @@ class Hook implements ListenerProvider
     ): iterable {
         $keys = $this->createKeys(
             types: $this->getEventTypes($event),
-            context: $this->getEventContext($event),
-            action: $this->getEventAction($event)
+            context: $this->getEventContext($event)
         );
+
+        $eventAction = $this->getEventAction($event);
 
         $subscriptions = [];
 
@@ -57,12 +58,32 @@ class Hook implements ListenerProvider
                 continue;
             }
 
-            foreach ($this->index[$key] as $class => $methods) {
+            foreach ($this->index[$key] as $class => $actions) {
+                if (
+                    $eventAction !== null &&
+                    !isset($actions[$eventAction])
+                ) {
+                    continue;
+                }
+
                 $slingshot = new Slingshot();
                 $hook = $slingshot->newInstance($class);
                 $ref = new ReflectionClass($hook);
+                $methodList = [];
 
-                foreach ($methods as $method) {
+                if ($eventAction === null) {
+                    foreach ($actions as $action => $methods) {
+                        $methodList = array_merge($methodList, $methods);
+                    }
+                } else {
+                    $methodList = $actions[$eventAction] ?? [];
+                }
+
+                $methodList = array_unique($methodList);
+
+
+
+                foreach ($methodList as $method) {
                     $methodRef = $ref->getMethod($method);
                     $attributes = $methodRef->getAttributes(Subscription::class);
 
@@ -71,7 +92,7 @@ class Hook implements ListenerProvider
                         $args['listener'] = $hook->getListener($method);
                         $subscription = new Subscription(...$args);
 
-                        if ($subscription->getKey() !== $key) {
+                        if (!$subscription->acceptsAction($eventAction)) {
                             continue;
                         }
 
@@ -96,26 +117,19 @@ class Hook implements ListenerProvider
      */
     protected function createKeys(
         array $types,
-        ?string $context,
-        ?string $action
+        ?string $context
     ): array {
         $keys = [];
         array_unshift($types, '*');
-        $contexts = $actions = ['*'];
+        $contexts = ['*'];
 
         if ($context !== null) {
             $contexts[] = $context;
         }
 
-        if ($action !== null) {
-            $actions[] = $action;
-        }
-
         foreach ($types as $type) {
             foreach ($contexts as $context) {
-                foreach ($actions as $action) {
-                    $keys[] = $type . ':' . $context . '#' . $action;
-                }
+                $keys[] = $type . ':' . $context;
             }
         }
 
@@ -168,7 +182,7 @@ class Hook implements ListenerProvider
     /**
      * Create index
      *
-     * @return array<string,array<class-string<HookInterface>,array<string>>>
+     * @return array<string,array<class-string<HookInterface>,array<string,array<string>>>>
      */
     protected function createIndex(): array
     {
@@ -185,7 +199,11 @@ class Hook implements ListenerProvider
             $hook = $slingshot->newInstance($class);
 
             foreach ($hook->getSubscriptions() as $name => $subscription) {
-                $index[$subscription->getKey()][get_class($hook)][] = $name;
+                $key = ($subscription->getType() ?? '*') . ':' . ($subscription->getContext() ?? '*');
+
+                foreach ($subscription->getActions() ?? ['*'] as $action) {
+                    $index[$key][get_class($hook)][$action][] = $name;
+                }
             }
         }
 
