@@ -174,6 +174,8 @@ class Hook implements ListenerProvider
             if (!is_array($index)) {
                 throw new Exception('Invalid index');
             }
+
+            $this->index = $index;
         } catch (Throwable $e) {
             $this->index = $this->createIndex();
         }
