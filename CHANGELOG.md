@@ -1,3 +1,4 @@
+## v0.2.0 (2024-08-01)
 * Allow Subscription attribute repetition
 * Support multiple actions per subscription
 
