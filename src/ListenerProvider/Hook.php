@@ -14,10 +14,10 @@ use DecodeLabs\Atlas;
 use DecodeLabs\Genesis;
 use DecodeLabs\Impulse\Hook as HookInterface;
 use DecodeLabs\Impulse\ListenerProvider;
-use DecodeLabs\Impulse\Subscription;
 use DecodeLabs\Slingshot;
 use Exception;
 use ReflectionClass;
+use SplPriorityQueue;
 use Throwable;
 
 class Hook implements ListenerProvider
@@ -25,7 +25,7 @@ class Hook implements ListenerProvider
     use EventReflectionTrait;
 
     /**
-     * @var array<string,array<class-string<HookInterface>,array<string,array<string>>>>
+     * @var array<string,array<class-string<HookInterface>,array<string,array<string,int>>>>
      */
     protected array $index = [];
 
@@ -50,8 +50,8 @@ class Hook implements ListenerProvider
         );
 
         $eventAction = $this->getEventAction($event);
-
-        $subscriptions = [];
+        /** @var SplPriorityQueue<int,callable(T):void> */
+        $listeners = new SplPriorityQueue();
 
         foreach ($keys as $key) {
             if (!isset($this->index[$key])) {
@@ -81,32 +81,14 @@ class Hook implements ListenerProvider
 
                 $methodList = array_unique($methodList);
 
-
-
-                foreach ($methodList as $method) {
+                foreach ($methodList as $method => $priority) {
                     $methodRef = $ref->getMethod($method);
-                    $attributes = $methodRef->getAttributes(Subscription::class);
-
-                    foreach ($attributes as $attribute) {
-                        $args = $attribute->getArguments();
-                        $args['listener'] = $hook->getListener($method);
-                        $subscription = new Subscription(...$args);
-
-                        if (!$subscription->acceptsAction($eventAction)) {
-                            continue;
-                        }
-
-                        $subscriptions[] = $subscription;
-                    }
+                    $listeners->insert($methodRef->getClosure($hook), $priority);
                 }
             }
         }
 
-        usort($subscriptions, function ($a, $b) {
-            return $b->getPriority()->value <=> $a->getPriority()->value;
-        });
-
-        return $subscriptions;
+        return $listeners;
     }
 
     /**
@@ -184,7 +166,7 @@ class Hook implements ListenerProvider
     /**
      * Create index
      *
-     * @return array<string,array<class-string<HookInterface>,array<string,array<string>>>>
+     * @return array<string,array<class-string<HookInterface>,array<string,array<string,int>>>>
      */
     protected function createIndex(): array
     {
@@ -204,7 +186,7 @@ class Hook implements ListenerProvider
                 $key = ($subscription->getType() ?? '*') . ':' . ($subscription->getContext() ?? '*');
 
                 foreach ($subscription->getActions() ?? ['*'] as $action) {
-                    $index[$key][get_class($hook)][$action][] = $name;
+                    $index[$key][get_class($hook)][$action][$name] = $subscription->getPriority()->value;
                 }
             }
         }
