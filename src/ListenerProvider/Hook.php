@@ -16,6 +16,7 @@ use DecodeLabs\Impulse\Hook as HookInterface;
 use DecodeLabs\Impulse\ListenerProvider;
 use DecodeLabs\Impulse\Subscription;
 use DecodeLabs\Slingshot;
+use Exception;
 use ReflectionClass;
 use Throwable;
 
@@ -147,11 +148,21 @@ class Hook implements ListenerProvider
         $file = $dir->getFile('hooks-' . $buildId . '.php');
 
         if (!$file->exists()) {
+            $this->index = $this->createIndex();
             $dir->emptyOut();
-            $file->putContents('<?php return ' . var_export($this->createIndex(), true) . ';');
+            $file->putContents('<?php return ' . var_export($this->index, true) . ';');
+            return;
         }
 
-        $this->index = require $file;
+        try {
+            $index = include $file;
+
+            if (!is_array($index)) {
+                throw new Exception('Invalid index');
+            }
+        } catch (Throwable $e) {
+            $this->index = $this->createIndex();
+        }
     }
 
     /**
