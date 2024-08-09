@@ -1,3 +1,5 @@
+* Added Veneer stub
+
 ## v0.2.3 (2024-08-01)
 * Added enabled flag to Dispatcher
 
