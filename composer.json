@@ -14,7 +14,7 @@
 
         "decodelabs/archetype": "^0.3.6",
         "decodelabs/exceptional": "^0.4.5",
-        "decodelabs/veneer": "^0.11.2",
+        "decodelabs/veneer": "^0.11.6",
         "decodelabs/slingshot": "^0.1.9"
     },
     "require-dev": {
