@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Impulse\Event;
 
+/**
+ * @phpstan-require-implements Stoppable
+ */
 trait StoppableTrait
 {
     protected bool $stopPropagation = false;

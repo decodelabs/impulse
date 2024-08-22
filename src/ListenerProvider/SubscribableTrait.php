@@ -13,6 +13,9 @@ use DecodeLabs\Impulse\Event\Emitted;
 use DecodeLabs\Impulse\Priority;
 use DecodeLabs\Impulse\Subscription;
 
+/**
+ * @phpstan-require-implements Subscribable
+ */
 trait SubscribableTrait
 {
     /**
