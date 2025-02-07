@@ -56,7 +56,7 @@ class Subscription
         ?callable $listener = null,
         ?string $context = null,
         string|array|null $action = null,
-        Priority $priority = null,
+        ?Priority $priority = null,
         bool $singleUse = false,
         bool $emitted = false
     ) {
