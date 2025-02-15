@@ -28,7 +28,7 @@ trait EventReflectionTrait
     ): array {
         if (is_object($eventType)) {
             $eventType = $eventType instanceof Proxy ?
-                $eventType->getType() :
+                $eventType->type :
                 get_class($eventType);
         }
 
@@ -57,7 +57,9 @@ trait EventReflectionTrait
     protected function getEventContext(
         object $event
     ): ?string {
-        return $event instanceof WithContext ? $event->getContext() : null;
+        return $event instanceof WithContext ?
+            $event->context :
+            null;
     }
 
     /**
@@ -69,6 +71,8 @@ trait EventReflectionTrait
     protected function getEventAction(
         object $event
     ): ?string {
-        return $event instanceof WithAction ? $event->getAction() : null;
+        return $event instanceof WithAction ?
+            $event->action :
+            null;
     }
 }

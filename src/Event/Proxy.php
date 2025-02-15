@@ -15,16 +15,12 @@ namespace DecodeLabs\Impulse\Event;
 interface Proxy
 {
     /**
-     * Get event type
-     *
-     * @return class-string<T>
+     * @var class-string<T>
      */
-    public function getType(): string;
+    public string $type { get; }
 
     /**
-     * Get target object
-     *
-     * @return T
+     * @var T
      */
-    public function getTarget(): object;
+    public object $target { get; }
 }

@@ -11,5 +11,5 @@ namespace DecodeLabs\Impulse\Event;
 
 interface WithContext
 {
-    public function getContext(): ?string;
+    public ?string $context { get; }
 }

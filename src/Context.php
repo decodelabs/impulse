@@ -71,14 +71,19 @@ class Context extends Dispatcher implements SubscribableListenerProvider
      *
      * @template T of object
      * @param T $event
-     * @return iterable<callable(T): void>
+     * @return iterable<callable(T):void>
      */
     public function getListenersForEvent(
         object $event
     ): iterable {
-        return $this->provider->getListenersForEvent($event);
+        /** @var iterable<callable(T):void> $listeners */
+        $listeners = $this->provider->getListenersForEvent($event);
+        return $listeners;
     }
 }
 
 // Register the Veneer facade
-Veneer::register(Context::class, Impulse::class);
+Veneer\Manager::getGlobalManager()->register(
+    Context::class,
+    Impulse::class
+);

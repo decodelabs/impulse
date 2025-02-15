@@ -69,13 +69,15 @@ class Compound implements
      *
      * @template T of object
      * @param T $event
-     * @return iterable<callable(T): void>
+     * @return iterable<callable(T):void>
      */
     public function getListenersForEvent(
         object $event
     ): iterable {
         foreach ($this->providers as $provider) {
-            yield from $provider->getListenersForEvent($event);
+            /** @var iterable<callable(T):void> $listeners */
+            $listeners = $provider->getListenersForEvent($event);
+            yield from $listeners;
         }
     }
 }

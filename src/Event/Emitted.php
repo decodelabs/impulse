@@ -25,6 +25,7 @@ class Emitted implements
      * @var T
      */
     public readonly object $target;
+    public string $type { get => get_class($this->target); }
     public readonly ?string $context;
     public readonly ?string $action;
 
@@ -39,39 +40,5 @@ class Emitted implements
         $this->target = $target;
         $this->context = $context;
         $this->action = $action;
-    }
-
-    /**
-     * Get target object
-     *
-     * @return T
-     */
-    public function getTarget(): object
-    {
-        return $this->target;
-    }
-
-    /**
-     * Get event type
-     */
-    public function getType(): string
-    {
-        return get_class($this->target);
-    }
-
-    /**
-     * Get context
-     */
-    public function getContext(): ?string
-    {
-        return $this->context;
-    }
-
-    /**
-     * Get action
-     */
-    public function getAction(): ?string
-    {
-        return $this->action;
     }
 }

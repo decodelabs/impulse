@@ -25,7 +25,7 @@ class Subscriber implements
     public function subscribe(
         Subscription $subscription
     ): void {
-        $this->subscriptions[$subscription->getKey()] = $subscription;
+        $this->subscriptions[$subscription->key] = $subscription;
         $this->sorted = false;
     }
 
@@ -35,6 +35,6 @@ class Subscriber implements
     public function unsubscribe(
         Subscription $subscription
     ): void {
-        unset($this->subscriptions[$subscription->getKey()]);
+        unset($this->subscriptions[$subscription->key]);
     }
 }

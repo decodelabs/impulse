@@ -34,7 +34,7 @@ trait SubscriberTrait
     ): iterable {
         if (!$this->sorted) {
             usort($this->subscriptions, function ($a, $b) {
-                return $b->getPriority()->value <=> $a->getPriority()->value;
+                return $b->priority->value <=> $a->priority->value;
             });
 
             $this->sorted = true;
@@ -45,9 +45,9 @@ trait SubscriberTrait
         $types = $this->getEventTypes($event);
 
         foreach ($this->subscriptions as $subscription) {
-            $subType = $subscription->getType();
-            $subActions = $subscription->getActions();
-            $subContext = $subscription->getContext();
+            $subType = $subscription->type;
+            $subActions = $subscription->actions;
+            $subContext = $subscription->context;
 
             if (
                 (
