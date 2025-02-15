@@ -28,23 +28,30 @@ class Subscription
     /**
      * @var class-string<T>|null
      */
-    protected ?string $type = null;
+    protected(set) ?string $type = null;
 
-    protected ?string $context = null;
+    protected(set) ?string $context = null;
 
     /**
      * @var array<string>|null
      */
-    protected ?array $actions = null;
+    protected(set) ?array $actions = null;
 
-    protected Priority $priority = Priority::Medium;
-    protected bool $singleUse = false;
-    protected bool $emitted = false;
+    public string $key {
+        get =>
+            ($this->type ?? '*') . ':' .
+            ($this->context ?? '*') . '#' .
+            (implode(',', $this->actions ?? ['*']));
+    }
+
+    protected(set) Priority $priority = Priority::Medium;
+    protected(set) bool $singleUse = false;
+    protected(set) bool $emitted = false;
 
     /**
      * @var Closure(T|Emitted<T>): void
      */
-    protected Closure $listener;
+    protected(set) Closure $listener;
 
     /**
      * @param class-string<T>|null $type
@@ -89,7 +96,7 @@ class Subscription
 
         if (!$param) {
             throw Exceptional::InvalidArgument(
-                'Subscription listener must accept an event object as its first argument'
+                message: 'Subscription listener must accept an event object as its first argument'
             );
         }
 
@@ -108,51 +115,11 @@ class Subscription
             !is_a($this->type, $listenerType->getName(), true)
         ) {
             throw Exceptional::InvalidArgument(
-                'Subscription listener must accept an event object of type ' . $this->type
+                message: 'Subscription listener must accept an event object of type ' . $this->type
             );
         }
     }
 
-
-    /**
-     * Get key
-     */
-    public function getKey(): string
-    {
-        return
-            ($this->type ?? '*') . ':' .
-            ($this->context ?? '*') . '#' .
-            (implode(',', $this->actions ?? ['*']));
-    }
-
-
-    /**
-     * Get event type
-     *
-     * @return class-string<T>|null
-     */
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    /**
-     * Get context
-     */
-    public function getContext(): ?string
-    {
-        return $this->context;
-    }
-
-    /**
-     * Get action
-     *
-     * @return array<string>|null
-     */
-    public function getActions(): ?array
-    {
-        return $this->actions;
-    }
 
     /**
      * Accepts action
@@ -169,39 +136,6 @@ class Subscription
             in_array($action, $this->actions);
     }
 
-    /**
-     * Get priority
-     */
-    public function getPriority(): Priority
-    {
-        return $this->priority;
-    }
-
-    /**
-     * Is single use
-     */
-    public function isSingleUse(): bool
-    {
-        return $this->singleUse;
-    }
-
-    /**
-     * Is emitted
-     */
-    public function isEmitted(): bool
-    {
-        return $this->emitted;
-    }
-
-    /**
-     * Get listener callback
-     *
-     * @return callable(T|Emitted<T>): void
-     */
-    public function getListener(): callable
-    {
-        return $this->listener;
-    }
 
     /**
      * Invoke listener
@@ -220,7 +154,7 @@ class Subscription
             !$this->emitted &&
             $event instanceof Emitted
         ) {
-            $event = $event->getTarget();
+            $event = $event->target;
         }
 
         /** @var T|Emitted<T> $event */

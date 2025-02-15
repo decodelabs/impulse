@@ -23,9 +23,9 @@ class Dispatcher implements PsrEventDispatcher
     /**
      * @var TProvider
      */
-    protected PsrListenerProvider $provider;
+    protected(set) PsrListenerProvider $provider;
 
-    protected bool $enabled = true;
+    public bool $enabled = true;
 
     /**
      * Initialise listener provider
@@ -60,6 +60,7 @@ class Dispatcher implements PsrEventDispatcher
             return $event;
         }
 
+        /** @var iterable<callable(T):void> $listeners */
         $listeners = $this->provider->getListenersForEvent($event);
 
         foreach ($listeners as $listener) {
@@ -67,7 +68,7 @@ class Dispatcher implements PsrEventDispatcher
 
             if (
                 $listener instanceof Subscription &&
-                $listener->isSingleUse() &&
+                $listener->singleUse &&
                 $this->provider instanceof Subscribable
             ) {
                 $this->provider->unsubscribe($listener);

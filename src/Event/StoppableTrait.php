@@ -14,7 +14,7 @@ namespace DecodeLabs\Impulse\Event;
  */
 trait StoppableTrait
 {
-    protected bool $stopPropagation = false;
+    private bool $stopPropagation = false;
 
     /**
      * Stop event propagation

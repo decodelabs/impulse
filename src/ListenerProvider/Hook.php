@@ -20,12 +20,15 @@ use ReflectionClass;
 use SplPriorityQueue;
 use Throwable;
 
+/**
+ * @phpstan-type Index = array<string,array<class-string<HookInterface>,array<string,array<string,int>>>>
+ */
 class Hook implements ListenerProvider
 {
     use EventReflectionTrait;
 
     /**
-     * @var array<string,array<class-string<HookInterface>,array<string,array<string,int>>>>
+     * @var Index
      */
     protected array $index = [];
 
@@ -130,7 +133,7 @@ class Hook implements ListenerProvider
                 !class_exists(Atlas::class) ||
                 !class_exists(Genesis::class) ||
                 Genesis::$environment->isDevelopment() ||
-                (null === ($buildId = Genesis::$build->getTime()));
+                (null === ($buildId = Genesis::$build->time));
         } catch (Throwable $e) {
             $noCache = true;
         }
@@ -157,6 +160,7 @@ class Hook implements ListenerProvider
                 throw new Exception('Invalid index');
             }
 
+            /** @var Index $index */
             $this->index = $index;
         } catch (Throwable $e) {
             $this->index = $this->createIndex();
@@ -183,10 +187,10 @@ class Hook implements ListenerProvider
             $hook = $slingshot->newInstance($class);
 
             foreach ($hook->getSubscriptions() as $name => $subscription) {
-                $key = ($subscription->getType() ?? '*') . ':' . ($subscription->getContext() ?? '*');
+                $key = ($subscription->type ?? '*') . ':' . ($subscription->context ?? '*');
 
-                foreach ($subscription->getActions() ?? ['*'] as $action) {
-                    $index[$key][get_class($hook)][$action][$name] = $subscription->getPriority()->value;
+                foreach ($subscription->actions ?? ['*'] as $action) {
+                    $index[$key][get_class($hook)][$action][$name] = $subscription->priority->value;
                 }
             }
         }

@@ -39,6 +39,7 @@ abstract class Hook
                 $args = $attribute->getArguments();
                 $args['listener'] = $closure;
 
+                /** @phpstan-ignore-next-line */
                 yield $method->getName() => new Subscription(...$args);
             }
         }

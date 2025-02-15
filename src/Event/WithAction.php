@@ -11,5 +11,5 @@ namespace DecodeLabs\Impulse\Event;
 
 interface WithAction
 {
-    public function getAction(): ?string;
+    public ?string $action { get; }
 }
