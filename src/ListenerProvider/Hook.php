@@ -143,7 +143,7 @@ class Hook implements ListenerProvider
             return;
         }
 
-        $dir = Atlas::dir(Genesis::$hub->getLocalDataPath() . '/impulse');
+        $dir = Atlas::dir(Genesis::$hub->localDataPath . '/impulse');
         $file = $dir->getFile('hooks-' . $buildId . '.php');
 
         if (!$file->exists()) {
