@@ -14,13 +14,13 @@
 
         "decodelabs/archetype": "^0.3.6",
         "decodelabs/exceptional": "^0.5",
-        "decodelabs/slingshot": "^0.1.12",
+        "decodelabs/slingshot": "^0.2",
         "decodelabs/veneer": "^0.12.1"
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.7",
         "decodelabs/atlas": "^0.12",
-        "decodelabs/genesis": "^0.11"
+        "decodelabs/genesis": "^0.12.1"
     },
     "provide": {
         "psr/event-dispatcher-implementation": "1.0"
