@@ -14,6 +14,7 @@ use DecodeLabs\Atlas;
 use DecodeLabs\Genesis;
 use DecodeLabs\Impulse\Hook as HookInterface;
 use DecodeLabs\Impulse\ListenerProvider;
+use DecodeLabs\Monarch;
 use DecodeLabs\Slingshot;
 use Exception;
 use ReflectionClass;
@@ -132,7 +133,7 @@ class Hook implements ListenerProvider
             $noCache =
                 !class_exists(Atlas::class) ||
                 !class_exists(Genesis::class) ||
-                Genesis::$environment->isDevelopment() ||
+                Monarch::isDevelopment() ||
                 (null === ($buildId = Genesis::$build->time));
         } catch (Throwable $e) {
             $noCache = true;
@@ -143,7 +144,7 @@ class Hook implements ListenerProvider
             return;
         }
 
-        $dir = Atlas::dir(Genesis::$hub->localDataPath . '/impulse');
+        $dir = Atlas::dir(Monarch::$paths->localData . '/impulse');
         $file = $dir->getFile('hooks-' . $buildId . '.php');
 
         if (!$file->exists()) {
