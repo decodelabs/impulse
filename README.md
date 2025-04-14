@@ -11,8 +11,6 @@
 
 Impulse provides an expansive event hook system that obides by the PSR-14 standard. It allows you to dispatch events at both global and local scopes, and provides a number of useful features for managing and manipulating event listeners.
 
-_Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
-
 ---
 
 ## Installation
