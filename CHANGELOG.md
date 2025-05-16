@@ -1,46 +1,113 @@
-## v0.3.2 (2025-04-09)
-* Replace Genesis info with Monarch
-* Upgraded Slingshot dependency
+# Changelog
 
-## v0.3.1 (2025-02-20)
-* Upgraded Coercion dependency
-* Upgraded Genesis dependency
+All notable changes to this project will be documented in this file.<br>
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v0.3.0 (2025-02-14)
-* Replaced accessors with property hooks
-* Upgraded PHPStan to v2
-* Tidied boolean logic
-* Fixed Exceptional syntax
-* Added PHP8.4 to CI workflow
-* Made PHP8.4 minimum version
+### Unreleased
+--
 
-## v0.2.6 (2025-02-07)
-* Fixed implicit nullable arguments
-* Added @phpstan-require-implements constraints
+---
 
-## v0.2.5 (2024-08-21)
-* Updated dependencies
-* Updated Veneer dependency and Stub
+### [v0.3.2](https://github.com/decodelabs/impulse/commits/v0.3.2) - 9th April 2025
 
-## v0.2.4 (2024-08-09)
-* Added Veneer stub
+- Replace Genesis info with Monarch
+- Upgraded Slingshot dependency
 
-## v0.2.3 (2024-08-01)
-* Added enabled flag to Dispatcher
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.3.1...v0.3.2)
 
-## v0.2.2 (2024-08-01)
-* Fixed hook listener discovery
+---
 
-## v0.2.1 (2024-08-01)
-* Fixed Hook index loader
+### [v0.3.1](https://github.com/decodelabs/impulse/commits/v0.3.1) - 20th February 2025
 
-## v0.2.0 (2024-08-01)
-* Allow Subscription attribute repetition
-* Support multiple actions per subscription
+- Upgraded Coercion dependency
+- Upgraded Genesis dependency
 
-## v0.1.1 (2024-08-01)
-* Added error fallback for hook index cache
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.3.0...v0.3.1)
 
-## v0.1.0 (2024-07-31)
-* Built initial PSR-14 implementation
-* Added global Hook structure
+---
+
+### [v0.3.0](https://github.com/decodelabs/impulse/commits/v0.3.0) - 14th February 2025
+
+- Replaced accessors with property hooks
+- Upgraded PHPStan to v2
+- Tidied boolean logic
+- Fixed Exceptional syntax
+- Added PHP8.4 to CI workflow
+- Made PHP8.4 minimum version
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.6...v0.3.0)
+
+---
+
+### [v0.2.6](https://github.com/decodelabs/impulse/commits/v0.2.6) - 7th February 2025
+
+- Fixed implicit nullable arguments
+- Added @phpstan-require-implements constraints
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.5...v0.2.6)
+
+---
+
+### [v0.2.5](https://github.com/decodelabs/impulse/commits/v0.2.5) - 21st August 2024
+
+- Updated dependencies
+- Updated Veneer dependency and Stub
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.4...v0.2.5)
+
+---
+
+### [v0.2.4](https://github.com/decodelabs/impulse/commits/v0.2.4) - 9th August 2024
+
+- Added Veneer stub
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.3...v0.2.4)
+
+---
+
+### [v0.2.3](https://github.com/decodelabs/impulse/commits/v0.2.3) - 1st August 2024
+
+- Added enabled flag to Dispatcher
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.2...v0.2.3)
+
+---
+
+### [v0.2.2](https://github.com/decodelabs/impulse/commits/v0.2.2) - 1st August 2024
+
+- Fixed hook listener discovery
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.1...v0.2.2)
+
+---
+
+### [v0.2.1](https://github.com/decodelabs/impulse/commits/v0.2.1) - 1st August 2024
+
+- Fixed Hook index loader
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.2.0...v0.2.1)
+
+---
+
+### [v0.2.0](https://github.com/decodelabs/impulse/commits/v0.2.0) - 1st August 2024
+
+- Allow Subscription attribute repetition
+- Support multiple actions per subscription
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.1.1...v0.2.0)
+
+---
+
+### [v0.1.1](https://github.com/decodelabs/impulse/commits/v0.1.1) - 1st August 2024
+
+- Added error fallback for hook index cache
+
+[Full list of changes](https://github.com/decodelabs/impulse/compare/v0.1.0...v0.1.1)
+
+---
+
+### [v0.1.0](https://github.com/decodelabs/impulse/commits/v0.1.0) - 31st July 2024
+
+- Built initial PSR-14 implementation
+- Added global Hook structure
