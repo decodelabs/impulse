@@ -19,8 +19,12 @@
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.7",
-        "decodelabs/atlas": "^0.12",
+        "decodelabs/atlas": "^0.13",
         "decodelabs/genesis": "^0.12.1"
+    },
+    "conflict": {
+        "decodelabs/atlas": "<0.13",
+        "decodelabs/genesis": "<0.12"
     },
     "provide": {
         "psr/event-dispatcher-implementation": "1.0"
