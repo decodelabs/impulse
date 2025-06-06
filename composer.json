@@ -12,15 +12,15 @@
         "php": "^8.4",
         "psr/event-dispatcher": "^1",
 
-        "decodelabs/archetype": "^0.3.6",
-        "decodelabs/exceptional": "^0.5",
-        "decodelabs/slingshot": "^0.2",
-        "decodelabs/veneer": "^0.12.1"
+        "decodelabs/archetype": "^0.3.10",
+        "decodelabs/exceptional": "^0.6.1",
+        "decodelabs/slingshot": "^0.2.1",
+        "decodelabs/veneer": "^0.12.8"
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.7",
-        "decodelabs/atlas": "^0.13",
-        "decodelabs/genesis": "^0.12.1"
+        "decodelabs/atlas": "^0.13.1",
+        "decodelabs/genesis": "^0.12.4"
     },
     "conflict": {
         "decodelabs/atlas": "<0.13",
