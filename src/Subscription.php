@@ -28,14 +28,14 @@ class Subscription
     /**
      * @var class-string<T>|null
      */
-    protected(set) ?string $type = null;
+    public protected(set) ?string $type = null;
 
-    protected(set) ?string $context = null;
+    public protected(set) ?string $context = null;
 
     /**
      * @var array<string>|null
      */
-    protected(set) ?array $actions = null;
+    public protected(set) ?array $actions = null;
 
     public string $key {
         get =>
@@ -44,14 +44,14 @@ class Subscription
             (implode(',', $this->actions ?? ['*']));
     }
 
-    protected(set) Priority $priority = Priority::Medium;
-    protected(set) bool $singleUse = false;
-    protected(set) bool $emitted = false;
+    public protected(set) Priority $priority = Priority::Medium;
+    public protected(set) bool $singleUse = false;
+    public protected(set) bool $emitted = false;
 
     /**
      * @var Closure(T|Emitted<T>): void
      */
-    protected(set) Closure $listener;
+    public protected(set) Closure $listener;
 
     /**
      * @param class-string<T>|null $type

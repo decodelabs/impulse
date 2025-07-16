@@ -23,7 +23,7 @@ class Dispatcher implements PsrEventDispatcher
     /**
      * @var TProvider
      */
-    protected(set) PsrListenerProvider $provider;
+    public protected(set) PsrListenerProvider $provider;
 
     public bool $enabled = true;
 
