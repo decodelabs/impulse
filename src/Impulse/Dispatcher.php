@@ -28,8 +28,6 @@ class Dispatcher implements PsrEventDispatcher
     public bool $enabled = true;
 
     /**
-     * Initialise listener provider
-     *
      * @param TProvider $provider
      */
     public function __construct(
@@ -38,17 +36,12 @@ class Dispatcher implements PsrEventDispatcher
         $this->provider = $provider;
     }
 
-    /**
-     * Get listener provider
-     */
     public function getListenerProvider(): PsrListenerProvider
     {
         return $this->provider;
     }
 
     /**
-     * Dispatch event
-     *
      * @template T of object
      * @param T $event
      * @return T
@@ -86,8 +79,6 @@ class Dispatcher implements PsrEventDispatcher
     }
 
     /**
-     * Emit subscribable object
-     *
      * @template T of object
      * @param T $target
      * @return EmittedEvent<T>
@@ -111,18 +102,12 @@ class Dispatcher implements PsrEventDispatcher
     }
 
 
-    /**
-     * Set enabled state
-     */
     public function setEnabled(
         bool $enabled
     ): void {
         $this->enabled = $enabled;
     }
 
-    /**
-     * Is enabled
-     */
     public function isEnabled(): bool
     {
         return $this->enabled;

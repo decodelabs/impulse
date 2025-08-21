@@ -19,8 +19,6 @@ use DecodeLabs\Impulse\Subscription;
 trait SubscribableTrait
 {
     /**
-     * Subscribe to event
-     *
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T|Emitted<T>): void $listener
@@ -48,8 +46,6 @@ trait SubscribableTrait
     }
 
     /**
-     * Subscribe to event
-     *
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T|Emitted<T>): void $listener
@@ -78,8 +74,6 @@ trait SubscribableTrait
 
 
     /**
-     * Create a new subscription
-     *
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T|Emitted<T>): void $listener

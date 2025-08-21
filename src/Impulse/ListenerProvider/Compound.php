@@ -30,9 +30,6 @@ class Compound implements
         $this->providers = $providers;
     }
 
-    /**
-     * Subscribe to event
-     */
     public function subscribe(
         Subscription $subscription
     ): void {
@@ -40,9 +37,6 @@ class Compound implements
         $provider->subscribe($subscription);
     }
 
-    /**
-     * Unsuscribe from event
-     */
     public function unsubscribe(
         Subscription $subscription
     ): void {
@@ -50,9 +44,6 @@ class Compound implements
         $provider->unsubscribe($subscription);
     }
 
-    /**
-     * Get subscribable provider
-     */
     protected function getSubscribableProvider(): Subscribable
     {
         foreach ($this->providers as $provider) {
@@ -65,8 +56,6 @@ class Compound implements
     }
 
     /**
-     * Get listeners for event
-     *
      * @template T of object
      * @param T $event
      * @return iterable<callable(T):void>

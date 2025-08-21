@@ -121,9 +121,6 @@ class Subscription
     }
 
 
-    /**
-     * Accepts action
-     */
     public function acceptsAction(
         ?string $action
     ): bool {
@@ -138,8 +135,6 @@ class Subscription
 
 
     /**
-     * Invoke listener
-     *
      * @param T|Emitted<T> $event
      */
     public function __invoke(

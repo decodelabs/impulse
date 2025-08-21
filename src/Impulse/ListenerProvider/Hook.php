@@ -11,7 +11,6 @@ namespace DecodeLabs\Impulse\ListenerProvider;
 
 use DecodeLabs\Archetype;
 use DecodeLabs\Atlas;
-use DecodeLabs\Genesis;
 use DecodeLabs\Impulse\Hook as HookInterface;
 use DecodeLabs\Impulse\ListenerProvider;
 use DecodeLabs\Monarch;
@@ -33,14 +32,13 @@ class Hook implements ListenerProvider
      */
     protected array $index = [];
 
-    public function __construct()
-    {
+    public function __construct(
+        protected Archetype $archetype
+    ) {
         $this->loadIndex();
     }
 
     /**
-     * Get listeners for event
-     *
      * @template T of object
      * @param T $event
      * @return iterable<callable(T): void>
@@ -53,7 +51,7 @@ class Hook implements ListenerProvider
             context: $this->getEventContext($event)
         );
 
-        $eventAction = $this->getEventAction($event);
+        $eventAction = $this->getEventAction($event) ?? '*';
         /** @var SplPriorityQueue<int,callable(T):void> */
         $listeners = new SplPriorityQueue();
 
@@ -63,29 +61,15 @@ class Hook implements ListenerProvider
             }
 
             foreach ($this->index[$key] as $class => $actions) {
-                if (
-                    $eventAction !== null &&
-                    !isset($actions[$eventAction])
-                ) {
+                if (!isset($actions[$eventAction])) {
                     continue;
                 }
 
                 $slingshot = new Slingshot();
                 $hook = $slingshot->newInstance($class);
                 $ref = new ReflectionClass($hook);
-                $methodList = [];
 
-                if ($eventAction === null) {
-                    foreach ($actions as $action => $methods) {
-                        $methodList = array_merge($methodList, $methods);
-                    }
-                } else {
-                    $methodList = $actions[$eventAction] ?? [];
-                }
-
-                $methodList = array_unique($methodList);
-
-                foreach ($methodList as $method => $priority) {
+                foreach ($actions[$eventAction] as $method => $priority) {
                     $methodRef = $ref->getMethod($method);
                     $listeners->insert($methodRef->getClosure($hook), $priority);
                 }
@@ -96,8 +80,6 @@ class Hook implements ListenerProvider
     }
 
     /**
-     * Create keys
-     *
      * @param array<string> $types
      * @return array<string>
      */
@@ -122,9 +104,6 @@ class Hook implements ListenerProvider
         return $keys;
     }
 
-    /**
-     * Load and cache subscriptions from hooks
-     */
     protected function loadIndex(): void
     {
         $buildId = null;
@@ -132,9 +111,8 @@ class Hook implements ListenerProvider
         try {
             $noCache =
                 !class_exists(Atlas::class) ||
-                !class_exists(Genesis::class) ||
                 Monarch::isDevelopment() ||
-                (null === ($buildId = Genesis::$build->time));
+                (null === ($buildId = Monarch::getBuild()->time));
         } catch (Throwable $e) {
             $noCache = true;
         }
@@ -144,7 +122,7 @@ class Hook implements ListenerProvider
             return;
         }
 
-        $dir = Atlas::dir(Monarch::$paths->localData . '/impulse');
+        $dir = Atlas::getDir(Monarch::getPaths()->localData . '/impulse');
         $file = $dir->getFile('hooks-' . $buildId . '.php');
 
         if (!$file->exists()) {
@@ -169,15 +147,13 @@ class Hook implements ListenerProvider
     }
 
     /**
-     * Create index
-     *
      * @return array<string,array<class-string<HookInterface>,array<string,array<string,int>>>>
      */
     protected function createIndex(): array
     {
         $index = [];
 
-        foreach (Archetype::scanClasses(HookInterface::class) as $class) {
+        foreach ($this->archetype->scanClasses(HookInterface::class) as $class) {
             $ref = new ReflectionClass($class);
 
             if (!$ref->isInstantiable()) {

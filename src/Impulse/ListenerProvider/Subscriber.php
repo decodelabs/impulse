@@ -19,9 +19,6 @@ class Subscriber implements
     use SubscribableTrait;
     use SubscriberTrait;
 
-    /**
-     * Subscribe to event
-     */
     public function subscribe(
         Subscription $subscription
     ): void {
@@ -29,9 +26,6 @@ class Subscriber implements
         $this->sorted = false;
     }
 
-    /**
-     * Unsuscribe from event
-     */
     public function unsubscribe(
         Subscription $subscription
     ): void {

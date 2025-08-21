@@ -16,8 +16,6 @@ use ReflectionProperty;
 abstract class Hook
 {
     /**
-     * Get list of subscriptions
-     *
      * @internal
      * @return iterable<string,Subscription<object>>
      */

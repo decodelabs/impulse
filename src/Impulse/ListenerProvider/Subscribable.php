@@ -16,8 +16,6 @@ use DecodeLabs\Impulse\Subscription;
 interface Subscribable extends ListenerProvider
 {
     /**
-     * Subscribe to event
-     *
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T): void $listener
@@ -33,8 +31,6 @@ interface Subscribable extends ListenerProvider
     ): Subscription;
 
     /**
-     * Subscribe to event
-     *
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T): void $listener
@@ -50,8 +46,6 @@ interface Subscribable extends ListenerProvider
     ): Subscription;
 
     /**
-     * Subscribe to event
-     *
      * @template T of object
      * @param Subscription<T> $subscription
      */
@@ -60,8 +54,6 @@ interface Subscribable extends ListenerProvider
     ): void;
 
     /**
-     * Unsubscribe from event
-     *
      * @template T of object
      * @param Subscription<T> $subscription
      */
@@ -70,8 +62,6 @@ interface Subscribable extends ListenerProvider
     ): void;
 
     /**
-     * Create a new subscription
-     *
      * @template T of object
      * @param class-string<T>|null $type
      * @param ?callable(T): void $listener

@@ -16,18 +16,12 @@ trait StoppableTrait
 {
     private bool $stopPropagation = false;
 
-    /**
-     * Stop event propagation
-     */
     public function stopPropagation(
         bool $flag = true
     ): void {
         $this->stopPropagation = $flag;
     }
 
-    /**
-     * Is propagation stopped?
-     */
     public function isPropagationStopped(): bool
     {
         return $this->stopPropagation;

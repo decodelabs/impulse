@@ -23,8 +23,6 @@ trait SubscriberTrait
     protected bool $sorted = false;
 
     /**
-     * Get listeners for event
-     *
      * @template T of object
      * @param T $event
      * @return iterable<Subscription<T>>

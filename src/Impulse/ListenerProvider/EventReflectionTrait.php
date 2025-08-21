@@ -17,8 +17,6 @@ use ReflectionClass;
 trait EventReflectionTrait
 {
     /**
-     * Get event types
-     *
      * @template T of object
      * @param class-string<T> $eventType
      * @return array<class-string>
@@ -49,8 +47,6 @@ trait EventReflectionTrait
     }
 
     /**
-     * Get event context
-     *
      * @template T of object
      * @param T $event
      */
@@ -63,8 +59,6 @@ trait EventReflectionTrait
     }
 
     /**
-     * Get event action
-     *
      * @template T of object
      * @param T $event
      */

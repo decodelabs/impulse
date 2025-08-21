@@ -12,19 +12,20 @@
         "php": "^8.4",
         "psr/event-dispatcher": "^1",
 
-        "decodelabs/archetype": "^0.3.10",
-        "decodelabs/exceptional": "^0.6.1",
-        "decodelabs/slingshot": "^0.2.1",
-        "decodelabs/veneer": "^0.12.8"
+        "decodelabs/archetype": "^0.4",
+        "decodelabs/exceptional": "^0.6.3",
+        "decodelabs/kingdom": "^0.1",
+        "decodelabs/monarch": "^0.2",
+        "decodelabs/slingshot": "^0.3"
     },
     "require-dev": {
-        "decodelabs/phpstan-decodelabs": "^0.7",
-        "decodelabs/atlas": "^0.13.1",
-        "decodelabs/genesis": "^0.12.4"
+        "decodelabs/atlas": "^0.14.1",
+        "decodelabs/genesis": "^0.13",
+        "decodelabs/phpstan-decodelabs": "^0.7"
     },
     "conflict": {
-        "decodelabs/atlas": "<0.13",
-        "decodelabs/genesis": "<0.12"
+        "decodelabs/atlas": "<0.14",
+        "decodelabs/genesis": "<0.13"
     },
     "provide": {
         "psr/event-dispatcher-implementation": "1.0"
@@ -35,10 +36,10 @@
     },
     "autoload": {
         "psr-4": {
-            "DecodeLabs\\Impulse\\": "src/"
+            "DecodeLabs\\Impulse\\": "src/Impulse/"
         },
-        "files": [
-            "src/Context.php"
+        "classmap": [
+            "src/Impulse.php"
         ]
     },
     "extra": {

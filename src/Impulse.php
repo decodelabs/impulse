@@ -7,59 +7,58 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Impulse;
+namespace DecodeLabs;
 
-use DecodeLabs\Impulse;
+use DecodeLabs\Impulse\Dispatcher;
 use DecodeLabs\Impulse\ListenerProvider\Compound as CompoundListenerProvider;
 use DecodeLabs\Impulse\ListenerProvider\Hook as HookListenerProvider;
 use DecodeLabs\Impulse\ListenerProvider\Subscribable as SubscribableListenerProvider;
 use DecodeLabs\Impulse\ListenerProvider\SubscribableTrait as SubscribableListenerProviderTrait;
-use DecodeLabs\Veneer;
+use DecodeLabs\Impulse\Subscription;
+use DecodeLabs\Kingdom\ContainerAdapter;
+use DecodeLabs\Kingdom\Service;
+use DecodeLabs\Kingdom\ServiceTrait;
 use Psr\EventDispatcher\ListenerProviderInterface as PsrListenerProvider;
 
 /**
  * @extends Dispatcher<SubscribableListenerProvider>
  */
-class Context extends Dispatcher implements SubscribableListenerProvider
+class Impulse extends Dispatcher implements
+    SubscribableListenerProvider,
+    Service
 {
     use SubscribableListenerProviderTrait;
+    use ServiceTrait;
 
-    /**
-     * Initialise listener provider
-     */
+    public static function provideService(
+        ContainerAdapter $container
+    ): static {
+        $archetype = $container->get(Archetype::class);
+
+        // @phpstan-ignore-next-line
+        return new self(new CompoundListenerProvider(
+            new HookListenerProvider($archetype),
+        ));
+    }
+
     public function __construct(
-        ?PsrListenerProvider $listenerProvider = null
+        PsrListenerProvider $listenerProvider,
     ) {
-        if (
-            $listenerProvider !== null &&
-            !$listenerProvider instanceof SubscribableListenerProvider
-        ) {
+        if (!$listenerProvider instanceof SubscribableListenerProvider) {
             $listenerProvider = new CompoundListenerProvider(
                 $listenerProvider
-            );
-        }
-
-        if ($listenerProvider === null) {
-            $listenerProvider = new CompoundListenerProvider(
-                new HookListenerProvider(),
             );
         }
 
         $this->provider = $listenerProvider;
     }
 
-    /**
-     * Subscribe to event
-     */
     public function subscribe(
         Subscription $subscription
     ): void {
         $this->provider->subscribe($subscription);
     }
 
-    /**
-     * Unsubscribe from event
-     */
     public function unsubscribe(
         Subscription $subscription
     ): void {
@@ -67,8 +66,6 @@ class Context extends Dispatcher implements SubscribableListenerProvider
     }
 
     /**
-     * Get listeners for event
-     *
      * @template T of object
      * @param T $event
      * @return iterable<callable(T):void>
@@ -81,9 +78,3 @@ class Context extends Dispatcher implements SubscribableListenerProvider
         return $listeners;
     }
 }
-
-// Register the Veneer facade
-Veneer\Manager::getGlobalManager()->register(
-    Context::class,
-    Impulse::class
-);
