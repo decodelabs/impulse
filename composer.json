@@ -20,12 +20,12 @@
     },
     "require-dev": {
         "decodelabs/atlas": "^0.14.1",
-        "decodelabs/genesis": "^0.13",
+        "decodelabs/genesis": "^0.14",
         "decodelabs/phpstan-decodelabs": "^0.7"
     },
     "conflict": {
         "decodelabs/atlas": "<0.14",
-        "decodelabs/genesis": "<0.13"
+        "decodelabs/genesis": "<0.14"
     },
     "provide": {
         "psr/event-dispatcher-implementation": "1.0"
@@ -49,7 +49,8 @@
     },
     "config": {
         "allow-plugins": {
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "decodelabs/genesis": true
         }
     }
 }
