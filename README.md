@@ -15,6 +15,8 @@ Impulse provides an expansive event hook system that obides by the PSR-14 standa
 
 ## Installation
 
+This package requires PHP 8.4 or higher.
+
 Install via Composer:
 
 ```bash
