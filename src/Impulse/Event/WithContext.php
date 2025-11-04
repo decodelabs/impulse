@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @package Impulse
- * @license http://opensource.org/licenses/MIT
+ * Impulse
+ * @license https://opensource.org/licenses/MIT
  */
 
 declare(strict_types=1);
