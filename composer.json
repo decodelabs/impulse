@@ -2,7 +2,7 @@
     "name": "decodelabs/impulse",
     "description": "PSR-14 compatible event hook system",
     "type": "library",
-    "keywords": [],
+    "keywords": [ ],
     "license": "MIT",
     "authors": [
         {
@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "decodelabs/atlas": "^0.14.1",
-        "decodelabs/chorus": "^0.1",
+        "decodelabs/chorus": ">0",
         "decodelabs/genesis": "^0.14",
         "decodelabs/phpstan-decodelabs": "^0.7"
     },
